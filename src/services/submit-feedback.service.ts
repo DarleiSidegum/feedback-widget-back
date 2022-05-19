@@ -1,34 +1,34 @@
 import { FeedbacksRepository } from "../repositories/feedbacks-repository";
 import { MailAdapter } from '../adapters/mail-adapter';
 
-interface SubmitFeedbackServiceRequest{
+interface SubmitFeedbackServiceRequest {
     type: string;
     commment: string;
     screenshot?: string;
-}   
+}
 
-export class SubmitFeedbackService{
-    constructor (
+export class SubmitFeedbackService {
+    constructor(
         private feedbackRepository: FeedbacksRepository,
         private mailAdapter: MailAdapter
-    ){}
+    ) { }
 
-    async execute(request: SubmitFeedbackServiceRequest){
-        const {type, commment, screenshot} = request;
+    async execute(request: SubmitFeedbackServiceRequest) {
+        const { type, commment, screenshot } = request;
 
-        if(!type){
+        if (!type) {
             throw new Error('Type is required');
         }
-        if(!commment){
+        if (!commment) {
             throw new Error('Comment is required');
         }
-        if(screenshot && !screenshot.startsWith('data:image/png;base64')){
+        if (screenshot && !screenshot.startsWith('data:image/png;base64')) {
             throw new Error('Invalid screenshot format');
         }
 
         await this.feedbackRepository.create({
-            type, 
-            commment, 
+            type,
+            commment,
             screenshot
         })
 
@@ -37,7 +37,7 @@ export class SubmitFeedbackService{
             body: [
                 `<div style="font-family:sans-serif; font-size: 16px; color:#111">`,
                 `<p>Tipo de feedback: ${type}</p>`,
-                `<p>Comentário: ${commment}</p>`,
+                screenshot ? `<img src=${screenshot}/>` : ``,
                 `</div>`
             ].join('\n')
         })

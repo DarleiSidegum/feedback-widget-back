@@ -3,7 +3,7 @@ import { MailAdapter } from '../adapters/mail-adapter';
 
 interface SubmitFeedbackServiceRequest {
     type: string;
-    commment: string;
+    comment: string;
     screenshot?: string;
 }
 
@@ -14,12 +14,12 @@ export class SubmitFeedbackService {
     ) { }
 
     async execute(request: SubmitFeedbackServiceRequest) {
-        const { type, commment, screenshot } = request;
+        const { type, comment, screenshot } = request;
 
         if (!type) {
             throw new Error('Type is required');
         }
-        if (!commment) {
+        if (!comment) {
             throw new Error('Comment is required');
         }
         if (screenshot && !screenshot.startsWith('data:image/png;base64')) {
@@ -28,7 +28,7 @@ export class SubmitFeedbackService {
 
         await this.feedbackRepository.create({
             type,
-            commment,
+            comment,
             screenshot
         })
 
@@ -37,6 +37,7 @@ export class SubmitFeedbackService {
             body: [
                 `<div style="font-family:sans-serif; font-size: 16px; color:#111">`,
                 `<p>Tipo de feedback: ${type}</p>`,
+                `<p>Comentário: ${comment}</p>`,
                 screenshot ? `<img src=${screenshot}/>` : ``,
                 `</div>`
             ].join('\n')

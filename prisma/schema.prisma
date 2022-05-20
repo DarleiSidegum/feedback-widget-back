@@ -6,14 +6,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Feedback {
   id         String  @id @default(uuid())
   type       String
-  commment   String
+  comment    String
   screenshot String?
 
   @@map("feedbacks")

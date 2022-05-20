@@ -1,6 +1,6 @@
 export interface FeedbackCreateData{
     type: string;
-    commment: string;
+    comment: string;
     screenshot?: string;
 }
 

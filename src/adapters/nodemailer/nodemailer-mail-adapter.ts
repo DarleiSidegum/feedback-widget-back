@@ -5,10 +5,10 @@ const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-        user: "1e6e10f7f01191",
-        pass: "5ac39d12483cf6"
+      user: "1e6e10f7f01191",
+      pass: "5ac39d12483cf6"
     }
-});
+  });
 
 export class NodemailerMailerAdapter implements MailAdapter{
     async sendMail({subject, body}: SendMailData){
